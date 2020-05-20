@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import wget
 import os
+import time
 
 siteRoot = 'https://meduza.io'
 
@@ -22,14 +23,17 @@ def get_links(html):
 
 
 def DownloadFile(link, path):
-    print(path)
+    print('\n' + path)
+    if os.path.exists(path):
+        return
     ok = False
     while not ok:
         try:
             wget.download(link, path)
             ok = True
-        except:
+        except Exception:
             print("Exception")
+            time.sleep(2)
             continue
 
 
@@ -43,6 +47,9 @@ def downloadPodcastEpisodes(folderPath, url):
 
 
 if __name__ == '__main__':
-    downloadPodcastEpisodes('/home/user/Music/Kak_zhit', 'https://meduza.io/podcasts/kak-zhit')
-    downloadPodcastEpisodes('/home/user/Music/Dva_po_tsene_odnogo', 'https://meduza.io/podcasts/dva-po-tsene-odnogo')
-    downloadPodcastEpisodes('/home/user/Music/Delo_Sluchaya', 'https://meduza.io/podcasts/delo-sluchaya')
+    downloadPodcastEpisodes('/home/user/Music/Kak_zhit',
+                            'https://meduza.io/podcasts/kak-zhit')
+    downloadPodcastEpisodes('/home/user/Music/Dva_po_tsene_odnogo',
+                            'https://meduza.io/podcasts/dva-po-tsene-odnogo')
+    downloadPodcastEpisodes('/home/user/Music/Delo_Sluchaya',
+                            'https://meduza.io/podcasts/delo-sluchaya')
